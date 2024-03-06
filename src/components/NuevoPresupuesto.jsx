@@ -1,18 +1,44 @@
-import React from 'react'
+import {useState} from 'react'
+import Mensaje from './Mensaje'
 
-const NuevoPresupuesto = () => {
+const NuevoPresupuesto = ({presupuesto, setPresupuesto}) => {
+
+    const [mensaje, setMensaje] = useState('')
+
+//Validando el presupuesto con una funcion
+    const handlePresupuesto = (e) => {
+        e.preventDefault();
+
+        //realizando la condicion de validar que sea numero
+        if(!presupuesto || presupuesto < 0) {
+            setMensaje('No es un presupuesto valido')
+            return
+        }
+        setMensaje('')
+
+    }
+
+
   return (
     <div className='contenedor-presupuesto contenedor sombra'>
       
-        <form className='formulario'>
+        <form className='formulario' onSubmit={handlePresupuesto}>
             <div className='campo'>
-                <label>Definir Presupuesto</label>
+                <label>Definir Presupuesto </label>
 
-                <input className='nuevo-presupuesto' type="text" placeholder='Añade tu Presupuesto' />
+                <input 
+                    className="nuevo-presupuesto" 
+                    type="number" 
+                    placeholder="Añade tu Presupuesto" 
+                    value={presupuesto}
+                    onChange={ e => setPresupuesto(Number(e.target.value))}
+                />
 
             </div>
 
             <input type="submit" value="Añadir" />
+
+            {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
 
 
         </form>
